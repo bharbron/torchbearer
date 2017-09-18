@@ -1,0 +1,66 @@
+{% import "macros.html" as macros %}
+{% extends "fullwidth_base.html" %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    {% if highest_component_status['status'].color == 'default' %}
+    <div class="alert alert-info">
+    {% else %}
+    <div class="alert alert-{{ highest_component_status['status'].color }}">
+    {% endif %}
+      {% if highest_component_status['all'] %}
+        <strong>{{ highest_component_status['status'].text }} for All Systems</strong>
+      {% else %}
+        <strong>{{ highest_component_status['status'].text }} for Some Systems</strong>
+      {% endif %}
+      <div class="pull-right">
+        Last updated {{ latest_update | dt_internal_to_display | dateformat("%B %d, %Y %I:%M %p %Z") }}
+      </div>
+    </div>
+    <div class="panel-group">
+      {% for component_group in component_groups %}
+      <div class="panel panel-default">
+        <div class="panel-heading panel-title">
+          <a data-toggle="collapse" href="#collapsecg{{ component_group.id }}">
+            {{ component_group.name }}
+          </a>
+        </div>
+        <div id="collapsecg{{ component_group.id }}" class="panel-collapse collapse in">
+          <ul class="list-group">
+            {% for component in component_group.components | sort(attribute="id") %}
+            {% if component.active %}
+            <li class="list-group-item">
+              <div class="pull-left">{{ component.name }}</div>
+              <div class="pull-right"><span class="label label-{{ component.status.color }}">{{ component.status.text }}</span></div>
+              <div class="clearfix"></div>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <h3><span class="glyphicon glyphicon-fire"></span> Open Incidents</h2>
+    </div>
+    {% for incident in open_incidents | reverse %}
+    <div class="row">
+      <div class="col-md-12">
+        <h4><a href="{{ url_for('incident_get', id=incident.id) }}">{{ incident.name }}</a></h4>
+        <p>{{ incident.severity.text }} - {{ incident.description }}</p>
+        <p class="text-muted">Last Update: {{ incident.status.text }} at {{ incident | incident_last_update_timestamp | dt_internal_to_display | dateformat("%B %d, %Y %I:%M %p %Z") }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+  
+{% endblock %}

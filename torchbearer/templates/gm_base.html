@@ -1,0 +1,10 @@
+{% extends "split_base.html" %}
+
+{% block menu %}
+<ul class="list-group">
+  <a href="{{ url_for('admin_incidents') }}" class="list-group-item"><span class="glyphicon glyphicon-fire"></span> Incidents</a>
+  <a href="{{ url_for('admin_components') }}" class="list-group-item"><span class="glyphicon glyphicon-warning-sign"></span> Components</a>
+  <a href="{{ url_for('admin_subscribers') }}" class="list-group-item"><span class="glyphicon glyphicon-user"></span> Subscribers</a>
+  <a href="{{ url_for('admin_settings') }}" class="list-group-item"><span class="glyphicon glyphicon-wrench"></span> Settings</a>
+</ul>
+{% endblock %}

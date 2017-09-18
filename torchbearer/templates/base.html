@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.gif') }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <title>grubhubbub</title>
+    
+    <!-- CSS -->
+    <!-- Boostrap -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- grubhubbub -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    <!-- JavaScript -->
+    <!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </head>
+  
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ url_for('home_get') }}">grubhubbub</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            {% if current_user.is_authenticated %}
+            <li>
+              <a href="{{ url_for('admin') }}"><span class="glyphicon glyphicon-cog"></span> Admin</a>
+            </li>
+            <li>
+              <a href="{{ url_for('logout_get') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            </li>
+            {% else %}
+            <li>
+              <a href="{{ url_for('login_get') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          {% block body %}{% endblock %}
+          <hr>
+          <footer>
+            <p>&copy; GrubOps 2017</p>
+          </footer>
+        </div>
+      </div>
+    </div>    
+  </body>
+</html>
